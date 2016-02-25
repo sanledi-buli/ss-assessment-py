@@ -19,11 +19,12 @@ def check_blacklist(name, phone):
 def application(request):
     path = request.path
     if path == '/blacklist':
-        name = str(request.args.get('name'))
-        phone = str(request.args.get('phone'))
+        name = request.args.get('name')
+        phone = request.args.get('phone')
         if phone is not None and name is not None:
             return Response("%r" % check_blacklist(name, phone))
-        return Response("False")
+        return Response("False", status=200)
+    return Response("Not Found", status=404)
 
 
 if __name__ == '__main__':
