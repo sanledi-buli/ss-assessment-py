@@ -28,7 +28,7 @@ def application(request):
         name = request.args.get('name')
         phone = request.args.get('phone')
         if phone is not None and name is not None:
-            return Response("%r" % check_blacklist(name, phone))
+            return Response("%r" % check_blacklist(name, phone), status=200)
         return Response("Bad Request", status=400)
     return Response("Not Found", status=404)
 
