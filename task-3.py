@@ -2,24 +2,21 @@ import pdb
 from werkzeug.wrappers import Request, Response
 from werkzeug.serving import run_simple
 
-arr_dict = []
+data_dict = {}
 
 def initialize(blacklist):
     with open(blacklist) as f:
         for line in f:
             cols = [x for x in line.split(' ')]
-            arr_dict.append({ cols[1].replace('\n','') : cols[0] })
+            data_dict[cols[1].replace('\n','')] = cols[0]
 
 """
 I think phone number for every user is unique. But lets check the name too.
 """
 def check_blacklist(name, phone):
-    item = None
-    try:
-        item = next((item for item in arr_dict if item[phone] == name), None)
-    except KeyError, e:
-        pass
-    return True if item is not None else False
+    if phone in data_dict and data_dict[phone] == name:
+        return True
+    return False
 
 @Request.application
 def application(request):
